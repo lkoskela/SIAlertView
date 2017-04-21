@@ -12,6 +12,7 @@ extern NSString *const SIAlertViewWillShowNotification;
 extern NSString *const SIAlertViewDidShowNotification;
 extern NSString *const SIAlertViewWillDismissNotification;
 extern NSString *const SIAlertViewDidDismissNotification;
+extern NSString *const SIAlertViewDidDismissLastAlertNotification;
 
 typedef NS_ENUM(NSInteger, SIAlertViewButtonType) {
     SIAlertViewButtonTypeDefault = 0,
@@ -53,6 +54,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 @property (nonatomic, copy) SIAlertViewHandler didShowHandler;
 @property (nonatomic, copy) SIAlertViewHandler willDismissHandler;
 @property (nonatomic, copy) SIAlertViewHandler didDismissHandler;
+@property (nonatomic, copy) SIAlertViewHandler didDismissLastAlertHandler;
 
 @property (nonatomic, readonly, getter = isVisible) BOOL visible;
 

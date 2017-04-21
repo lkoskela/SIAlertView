@@ -74,7 +74,10 @@
     alertView.didDismissHandler = ^(SIAlertView *alertView) {
         NSLog(@"%@, didDismissHandler", alertView);
     };
-    
+    alertView.didDismissLastAlertHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, didDismissLastAlertHandler", alertView);
+    };
+
 //    alertView.cornerRadius = 4;
 //    alertView.buttonFont = [UIFont boldSystemFontOfSize:12];
     [alertView show];
@@ -137,11 +140,14 @@
     alertView.didDismissHandler = ^(SIAlertView *alertView) {
         NSLog(@"%@, didDismissHandler2", alertView);
     };
-    
+    alertView.didDismissLastAlertHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, didDismissLastAlertHandler2", alertView);
+    };
+
     [alertView show];
 }
 
-id observer1,observer2,observer3,observer4;
+id observer1,observer2,observer3,observer4,observer5;
 
 - (IBAction)alert3:(id)sender
 {
@@ -171,7 +177,10 @@ id observer1,observer2,observer3,observer4;
     alertView.didDismissHandler = ^(SIAlertView *alertView) {
         NSLog(@"%@, didDismissHandler3", alertView);
     };
-    
+    alertView.didDismissLastAlertHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, didDismissLastAlertHandler3", alertView);
+    };
+
     observer1 = [[NSNotificationCenter defaultCenter] addObserverForName:SIAlertViewWillShowNotification
                                                                   object:alertView
                                                                    queue:[NSOperationQueue mainQueue]
@@ -203,7 +212,22 @@ id observer1,observer2,observer3,observer4;
                                                                  
                                                                  observer1 = observer2 = observer3 = observer4 = nil;
                                                              }];
-    
+
+    observer5 =[[NSNotificationCenter defaultCenter] addObserverForName:SIAlertViewDidDismissLastAlertNotification
+                                                                 object:alertView
+                                                                  queue:[NSOperationQueue mainQueue]
+                                                             usingBlock:^(NSNotification *note) {
+                                                                 NSLog(@"%@, -didDismissLastAlertHandler3", alertView);
+
+                                                                 [[NSNotificationCenter defaultCenter] removeObserver:observer1];
+                                                                 [[NSNotificationCenter defaultCenter] removeObserver:observer2];
+                                                                 [[NSNotificationCenter defaultCenter] removeObserver:observer3];
+                                                                 [[NSNotificationCenter defaultCenter] removeObserver:observer4];
+                                                                 [[NSNotificationCenter defaultCenter] removeObserver:observer5];
+
+                                                                 observer1 = observer2 = observer3 = observer4 = observer5 = nil;
+                                                             }];
+
     [alertView show];
 }
 

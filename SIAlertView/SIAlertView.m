@@ -14,6 +14,7 @@ NSString *const SIAlertViewWillShowNotification = @"SIAlertViewWillShowNotificat
 NSString *const SIAlertViewDidShowNotification = @"SIAlertViewDidShowNotification";
 NSString *const SIAlertViewWillDismissNotification = @"SIAlertViewWillDismissNotification";
 NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotification";
+NSString *const SIAlertViewDidDismissLastAlertNotification = @"SIAlertViewDidDismissLastAlertNotification";
 
 #define DEBUG_LAYOUT 0
 
@@ -490,6 +491,11 @@ static SIAlertView *__si_alert_current_view;
             if ([SIAlertView sharedQueue].count > 0) {
                 SIAlertView *alert = [[SIAlertView sharedQueue] lastObject];
                 [alert show];
+            } else {
+                if (self.didDismissLastAlertHandler) {
+                    self.didDismissLastAlertHandler(self);
+                }
+                [[NSNotificationCenter defaultCenter] postNotificationName:SIAlertViewDidDismissLastAlertNotification object:self userInfo:nil];
             }
         }
     };
